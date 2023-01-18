@@ -54,7 +54,11 @@ class ItemController extends Controller
         $slug_title = Str::slug($val_data['title']);
         $val_data['slug'] = $slug_title;
 
-        Item::create($val_data);
+        $item = Item::create($val_data);
+
+        if ($request->has('categories')) {
+            $item->categories()->attach($val_data['technologies']);
+        }
 
         $item->categories()->attach($val_data->categories);
 
