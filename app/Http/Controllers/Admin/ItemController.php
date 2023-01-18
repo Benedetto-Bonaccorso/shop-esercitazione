@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 
 use App\Models\Item;
+use App\Models\Category;
 use App\Http\Requests\StoreItemRequest;
 use App\Http\Requests\UpdateItemRequest;
 use Illuminate\Support\Str;
@@ -30,7 +31,8 @@ class ItemController extends Controller
      */
     public function create()
     {
-        return view('admin.items.create');
+        $categories = Category::all();
+        return view('admin.items.create', compact("categories"));
     }
 
     /**
@@ -39,10 +41,10 @@ class ItemController extends Controller
      * @param  \App\Http\Requests\StoreItemRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreItemRequest $request)
+    public function store(StoreItemRequest $request, Item $item)
     {
+        dd($request);
         $val_data = $request->validated();
-        // dd($val_data);
 
         if ($request->hasFile('cover_image')) {
             $img_path = Storage::put('uploads', $val_data['cover_image']);
@@ -53,6 +55,8 @@ class ItemController extends Controller
         $val_data['slug'] = $slug_title;
 
         Item::create($val_data);
+
+        $item->categories()->attach($val_data->categories);
 
         return to_route("admin.items.index");
     }
