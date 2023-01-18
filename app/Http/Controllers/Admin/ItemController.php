@@ -41,22 +41,18 @@ class ItemController extends Controller
      */
     public function store(StoreItemRequest $request)
     {
+        $val_data = $request->validated();
+        // dd($val_data);
 
-        $newItem = new Item();
-        $newItem->title = $request["title"];
-        $newItem->slug = Str::slug($request["title"]);
-        $newItem->body = $request["body"];
-        if ($request->hasFile('cover_image')) {
-
-
-            // $img_path = Storage::disk('public')->put('uploads', $request->cover_image);
-            $img_path = Storage::put('uploads', $request->cover_image);
-            // $img_path = Storage::disk('public')->put('uploads', $request->cover_image);
-            // dd($request->all());
-
-            $newItem->cover_image = $img_path;
+        if ($request->hasFile('cover_img')) {
+            $img_path = Storage::put('uploads', $val_data['cover_image']);
+            $val_data['cover_image'] = $img_path;
         }
-        $newItem->save();
+
+        $slug_title = Str::slug($val_data['title']);
+        $val_data['slug'] = $slug_title;
+
+        Item::create($val_data);
 
         return to_route("admin.items.index");
     }
@@ -92,21 +88,21 @@ class ItemController extends Controller
      */
     public function update(UpdateItemRequest $request, Item $item)
     {
-        $item->title = $request["title"];
-        $item->body = $request["body"];
-        // dd($request->all());
-        if ($request->hasFile('cover_image')) {
+        $val_data = $request->validated();
+        // dd($val_data);
+
+        if ($request->hasFile('cover_img')) {
             if ($item->cover_image) {
                 Storage::delete($item->cover_image);
             }
-            // $img_path = Storage::disk('public')->put('uploads', $request->cover_image);
-            $img_path = Storage::put('uploads', $request->cover_image);
-            // $img_path = Storage::disk('public')->put('uploads', $request->cover_image);
-            // dd($request->all());
-
-            $item->cover_image = $img_path;
+            $img_path = Storage::put('uploads', $val_data['cover_image']);
+            $val_data['cover_image'] = $img_path;
         }
-        $item->save();
+
+        $slug_title = Str::slug($val_data['title']);
+        $val_data['slug'] = $slug_title;
+
+        $item->update($val_data);
         return to_route("admin.items.index");
     }
 

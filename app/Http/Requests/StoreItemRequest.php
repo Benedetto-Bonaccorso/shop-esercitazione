@@ -24,7 +24,9 @@ class StoreItemRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'title' => 'required|unique:items,title|max:100',
+            'cover_image' => 'nullable|image|max:255',
+            'body' => 'nullable|max:10000'
         ];
     }
 }
