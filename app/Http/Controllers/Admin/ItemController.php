@@ -7,6 +7,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Item;
 use App\Http\Requests\StoreItemRequest;
 use App\Http\Requests\UpdateItemRequest;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 
 class ItemController extends Controller
 {
@@ -39,10 +41,23 @@ class ItemController extends Controller
      */
     public function store(StoreItemRequest $request)
     {
+
         $newItem = new Item();
         $newItem->title = $request["title"];
+        $newItem->slug = Str::slug($request["title"]);
         $newItem->body = $request["body"];
+        if ($request->hasFile('cover_image')) {
+
+
+            // $img_path = Storage::disk('public')->put('uploads', $request->cover_image);
+            $img_path = Storage::put('uploads', $request->cover_image);
+            // $img_path = Storage::disk('public')->put('uploads', $request->cover_image);
+            // dd($request->all());
+
+            $newItem->cover_image = $img_path;
+        }
         $newItem->save();
+
         return to_route("admin.items.index");
     }
 
@@ -79,6 +94,18 @@ class ItemController extends Controller
     {
         $item->title = $request["title"];
         $item->body = $request["body"];
+        // dd($request->all());
+        if ($request->hasFile('cover_image')) {
+            if ($item->cover_image) {
+                Storage::delete($item->cover_image);
+            }
+            // $img_path = Storage::disk('public')->put('uploads', $request->cover_image);
+            $img_path = Storage::put('uploads', $request->cover_image);
+            // $img_path = Storage::disk('public')->put('uploads', $request->cover_image);
+            // dd($request->all());
+
+            $item->cover_image = $img_path;
+        }
         $item->save();
         return to_route("admin.items.index");
     }
@@ -91,6 +118,9 @@ class ItemController extends Controller
      */
     public function destroy(Item $item)
     {
+        if ($item->cover_image) {
+            Storage::delete($item->cover_image);
+        }
         $item->delete();
         return to_route("admin.items.index");
     }

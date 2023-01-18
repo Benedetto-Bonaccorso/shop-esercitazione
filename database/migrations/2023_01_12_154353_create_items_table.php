@@ -16,6 +16,8 @@ return new class extends Migration
         Schema::create('items', function (Blueprint $table) {
             $table->id();
             $table->string('title', 100)->unique();
+            $table->string('slug', 100);
+            $table->string('cover_image', 255)->nullable();
             $table->text('body')->nullable();
             $table->timestamps();
         });
