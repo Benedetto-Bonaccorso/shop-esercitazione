@@ -44,7 +44,7 @@ class ItemController extends Controller
         $val_data = $request->validated();
         // dd($val_data);
 
-        if ($request->hasFile('cover_img')) {
+        if ($request->hasFile('cover_image')) {
             $img_path = Storage::put('uploads', $val_data['cover_image']);
             $val_data['cover_image'] = $img_path;
         }
@@ -91,7 +91,7 @@ class ItemController extends Controller
         $val_data = $request->validated();
         // dd($val_data);
 
-        if ($request->hasFile('cover_img')) {
+        if ($request->hasFile('cover_image')) {
             if ($item->cover_image) {
                 Storage::delete($item->cover_image);
             }
