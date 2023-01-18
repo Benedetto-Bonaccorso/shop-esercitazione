@@ -18,9 +18,13 @@
                     <td>{{$item->title}}</td>
                     <td>
                         <div>
-                            <a href="" class="btn btn-primary">Show</a>
-                            <a href="" class="btn btn-secondary">Edit</a>
-                            <a href="" class="btn btn-danger">Delete</a>
+                            <a href="{{route('admin.items.show', $item->id)}}" class="btn btn-primary">Show</a>
+                            <a href="{{route('admin.items.edit', $item->id)}}" class="btn btn-secondary">Edit</a>
+                            <form action="{{route('admin.items.destroy', $item->id)}}" method="post">
+                                @csrf
+                                @method("delete")
+                                <button type="submit">delete</button>
+                            </form>
                         </div>
                     </td>
                 </tr>

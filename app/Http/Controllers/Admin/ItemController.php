@@ -28,7 +28,7 @@ class ItemController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.items.create');
     }
 
     /**
@@ -39,7 +39,11 @@ class ItemController extends Controller
      */
     public function store(StoreItemRequest $request)
     {
-        //
+        $newItem = new Item();
+        $newItem->title = $request["title"];
+        $newItem->body = $request["body"];
+        $newItem->save();
+        return to_route("admin.items.index");
     }
 
     /**
@@ -50,7 +54,7 @@ class ItemController extends Controller
      */
     public function show(Item $item)
     {
-        //
+        return view('admin.items.show', compact('item'));
     }
 
     /**
@@ -61,7 +65,7 @@ class ItemController extends Controller
      */
     public function edit(Item $item)
     {
-        //
+        return view('admin.items.edit', compact('item'));
     }
 
     /**
@@ -73,7 +77,10 @@ class ItemController extends Controller
      */
     public function update(UpdateItemRequest $request, Item $item)
     {
-        //
+        $item->title = $request["title"];
+        $item->body = $request["body"];
+        $item->save();
+        return to_route("admin.items.index");
     }
 
     /**
@@ -84,6 +91,7 @@ class ItemController extends Controller
      */
     public function destroy(Item $item)
     {
-        //
+        $item->delete();
+        return to_route("admin.items.index");
     }
 }
