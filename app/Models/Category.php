@@ -6,19 +6,18 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Item extends Model
+class Category extends Model
 {
     use HasFactory;
-
-    protected $fillable = ['title', 'slug', 'body', 'cover_image'];
+    protected $fillable = ["name"];
 
     /**
-     * The categories that belong to the Item
+     * The roles that belong to the Category
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    public function categories(): BelongsToMany
+    public function items(): BelongsToMany
     {
-        return $this->belongsToMany(Category::class);
+        return $this->belongsToMany(Item::class);
     }
 }
