@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateItemRequest extends FormRequest
 {
@@ -24,7 +25,13 @@ class UpdateItemRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'title' => [
+                'required',
+                Rule::unique('items')->ignore($this->item->id),
+                'max:100'
+            ],
+            'cover_image' => 'nullable|image|max:255',
+            'body' => 'nullable|max:10000'
         ];
     }
 }
