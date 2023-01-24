@@ -37,8 +37,10 @@ class CategoryController extends Controller
      */
     public function store(StoreCategoryRequest $request)
     {
+        $val_data = $request->validated();
+
         $newCategory = new Category();
-        $newCategory->name = $request["name"];
+        $newCategory->name = $val_data["name"];
         $newCategory->save();
 
         return to_route("admin.categories.index");
@@ -63,7 +65,7 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        
+        //
     }
 
     /**
@@ -75,11 +77,10 @@ class CategoryController extends Controller
      */
     public function update(UpdateCategoryRequest $request, Category $category)
     {
-        $data = [
-            "name" => $request["name"]
-        ];
+        $val_data = $request->validated();
 
-        $category->update($data);
+        $category->name = $val_data["name-$category->id"];
+        $category->update($val_data);
 
         return to_route("admin.categories.index");
     }
