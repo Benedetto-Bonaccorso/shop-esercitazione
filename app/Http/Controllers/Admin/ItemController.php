@@ -44,7 +44,6 @@ class ItemController extends Controller
      */
     public function store(StoreItemRequest $request, Item $item)
     {
-        // dd($request);
         $val_data = $request->validated();
 
         if ($request->hasFile('cover_image')) {
@@ -111,6 +110,13 @@ class ItemController extends Controller
         $val_data['slug'] = $slug_title;
 
         $item->update($val_data);
+
+        if ($request->has('categories')) {
+            $item->categories()->sync($val_data['categories']);
+        } else {
+            $item->categories()->sync([]);
+        }
+
         return to_route("admin.items.index");
     }
 

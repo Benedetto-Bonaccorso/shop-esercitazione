@@ -21,14 +21,23 @@
             </div>
 
             <p>Select item categories</p>
-            @foreach ($categories as $category)
-            <div class="form-check @error('categories') is-invalid @enderror">
-                <label class="form-check-label">
-                    <input name="categories[]" type="checkbox" value="{{ $category->id }}" class="form-check-input" {{ in_array($category->id, old('categories', [])) ? 'checked' : '' }}>
-                    {{ $category->name }}
-                   </label>
+            <div class="mb-3">
+                <label for="categories" class="form-label">Categories</label>
+                <select multiple class="form-select form-select-sm" name="categories[]" id="categories">
+                    <option value="" disabled>Select a category</option>
+                    @forelse ($categories as $category)
+                        @if ($errors->any())
+                            <option value="{{ $category->id }}"
+                                {{ in_array($category->id, old('categories', [])) ? 'selected' : '' }}>
+                                {{ $category->name }}</option>
+                        @else
+                            <option value="{{ $category->id }}">{{ $category->name }}</option>
+                        @endif
+                    @empty
+                        <option value="" disabled>No categories in the system</option>
+                    @endforelse
+                </select>
             </div>
-            @endforeach
 
             <button type="submit" class="btn btn-primary">Create</button>
         </form>

@@ -58,7 +58,7 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ Route('admin.categories.index') }}">
                                     <span data-feather="file" class="align-text-bottom"></span>
-                                    Cathegories
+                                    Categories
                                 </a>
                             </li>
                         </ul>

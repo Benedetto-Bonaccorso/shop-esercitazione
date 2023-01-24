@@ -23,6 +23,27 @@
                 <textarea class="form-control" name="body" id="body" rows="3">{{ old('body', $item->body) }}</textarea>
             </div>
 
+            <div class="mb-3">
+                <label for="categories" class="form-label">Categories</label>
+                <select multiple class="form-select form-select-sm" name="categories[]" id="categories">
+                    <option value="" disabled>Select a category</option>
+                    @forelse ($categories as $category)
+                        @if ($errors->any())
+                            <option value="{{ $category->id }}"
+                                {{ in_array($category->id, old('categories', [])) ? 'selected' : '' }}>
+                                {{ $category->name }}
+                            </option>
+                        @else
+                            <option value="{{ $category->id }}"
+                                {{ $item->categories->contains($category->id) ? 'selected' : '' }}>
+                                {{ $category->name }}</option>
+                        @endif
+                    @empty
+                        <option value="" disabled>No categories in the system</option>
+                    @endforelse
+                </select>
+            </div>
+
             <button type="submit" class="btn btn-primary">Edit</button>
         </form>
     </div>

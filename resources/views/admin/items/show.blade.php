@@ -11,4 +11,5 @@
     </div>
     <div><strong>Title</strong>: {{ $item->title }}</div>
     <div><strong>Body</strong>: {{ $item->body }}</div>
+    <div><strong>Categories</strong>: {{ $item->categories }}</div>
 @endsection

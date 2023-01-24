@@ -26,6 +26,7 @@ class StoreItemRequest extends FormRequest
         return [
             'title' => 'required|unique:items,title|max:100',
             'cover_image' => 'nullable|image|max:255',
+            'categories' => 'nullable|exists:categories,id|max:255',
             'body' => 'nullable|max:10000'
         ];
     }
