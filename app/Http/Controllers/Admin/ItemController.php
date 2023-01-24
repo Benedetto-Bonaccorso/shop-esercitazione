@@ -44,7 +44,7 @@ class ItemController extends Controller
      */
     public function store(StoreItemRequest $request, Item $item)
     {
-        dd($request);
+        // dd($request);
         $val_data = $request->validated();
 
         if ($request->hasFile('cover_image')) {
@@ -55,9 +55,11 @@ class ItemController extends Controller
         $slug_title = Str::slug($val_data['title']);
         $val_data['slug'] = $slug_title;
 
-        Item::create($val_data);
+        $item = Item::create($val_data);
 
-        $item->categories()->attach($val_data->categories);
+        if ($request->has('categories')) {
+            $item->categories()->attach($val_data['categories']);
+        }
 
         return to_route("admin.items.index");
     }
@@ -81,7 +83,8 @@ class ItemController extends Controller
      */
     public function edit(Item $item)
     {
-        return view('admin.items.edit', compact('item'));
+        $categories = Category::all();
+        return view('admin.items.edit', compact('item', 'categories'));
     }
 
     /**
