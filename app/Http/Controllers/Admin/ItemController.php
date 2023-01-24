@@ -1,5 +1,6 @@
 <?php
 //esempio          +++commento
+//iuwanxmfouwegweuoihfxifu gchenj
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
