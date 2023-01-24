@@ -43,6 +43,12 @@ class ItemController extends Controller
      */
     public function store(StoreItemRequest $request, Item $item)
     {
+        /*
+        $newItem = new Item();
+        $newItem->title = $request["title"];
+        $newItem->cover_image = Storage::disk('public')->put('projects_img', $request->cover_image);
+        */
+        
         dd($request);
         $val_data = $request->validated();
 
@@ -59,6 +65,7 @@ class ItemController extends Controller
         $item->categories()->attach($val_data->categories);
 
         return to_route("admin.items.index");
+        
     }
 
     /**

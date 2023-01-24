@@ -26,10 +26,10 @@
                     @forelse($items as $item)
                         <tr class="">
                             <td scope="row">{{ $item->id }}</td>
-                            <td>
-                                <img width="100" src="{{ asset('storage/' . $item->cover_image) }}" alt="">
-                            </td>
                             <td>{{ $item->title }}</td>
+                            <td>
+                                <img width="100" src="{{ asset('storage/' . $item->cover_image) }}" :alt="$item->title">
+                            </td>
                             <td>
                                 <div class="d-flex gap-2">
                                     <a href="{{ route('admin.items.show', $item->id) }}" class="btn btn-primary">Show</a>
