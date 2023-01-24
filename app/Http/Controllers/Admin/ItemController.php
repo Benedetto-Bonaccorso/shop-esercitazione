@@ -1,5 +1,5 @@
 <?php
-//esempiocommento
+//esempio          +++commento
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
