@@ -58,7 +58,7 @@ class ItemController extends Controller
         $item = Item::create($val_data);
 
         if ($request->has('categories')) {
-            $item->categories()->attach($val_data->categories);
+            $item->categories()->attach($val_data['categories']);
         }
 
         return to_route("admin.items.index");
